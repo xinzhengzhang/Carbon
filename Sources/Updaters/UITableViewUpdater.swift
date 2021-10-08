@@ -203,6 +203,8 @@ open class UITableViewUpdater<Adapter: UITableViewAdapter>: Updater {
                 }
 
                 for indexPath in target.indexPathsForVisibleRows ?? [] {
+                    guard indexPath.section != NSNotFound, indexPath.row != NSNotFound else { continue }
+
                     let cellNode = adapter.cellNode(at: indexPath)
                     let cell = target.cellForRow(at: indexPath) as? ComponentRenderable
                     cell?.render(component: cellNode.component)

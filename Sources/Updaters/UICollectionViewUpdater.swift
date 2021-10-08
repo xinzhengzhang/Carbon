@@ -155,6 +155,7 @@ open class UICollectionViewUpdater<Adapter: UICollectionViewAdapter>: Updater {
             target.performBatchUpdates({
                 for kind in adapter.registeredSupplementaryViewKinds(for: target) {
                     for indexPath in target.indexPathsForVisibleSupplementaryElements(ofKind: kind) {
+                        guard indexPath.section != NSNotFound, indexPath.row != NSNotFound else { continue }
                         guard let node = adapter.supplementaryViewNode(forElementKind: kind, collectionView: target, at: indexPath) else {
                             continue
                         }
@@ -165,6 +166,8 @@ open class UICollectionViewUpdater<Adapter: UICollectionViewAdapter>: Updater {
                 }
 
                 for indexPath in target.indexPathsForVisibleItems {
+                    guard indexPath.section != NSNotFound, indexPath.row != NSNotFound else { continue }
+
                     let cellNode = adapter.cellNode(at: indexPath)
                     let cell = target.cellForItem(at: indexPath) as? ComponentRenderable
                     cell?.render(component: cellNode.component)
